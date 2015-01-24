@@ -1,0 +1,106 @@
+\documentclass[a4paper,12pt,one side,titlepage]{report}
+
+
+%en francais
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+
+
+
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{eurosym}
+\usepackage{url}
+\usepackage{pdfpages}
+\usepackage[acronym]{glossaries}
+\usepackage{hyperref}
+%\usepackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+%\hypersetup{pdfborder=0}
+
+
+
+
+\newglossaryentry{firewall}
+{
+	name={firewall},
+	description={Protection pour serveur}
+}
+
+\newglossaryentry{naxsi}
+{
+	name={naxsi},
+	description={Un type de firewall}
+}
+
+
+
+\makeglossaries
+\begin{document}
+%\includepdf[pages = {1-1}]{./pdf/1stpage.pdf}
+%\includepdf[pages = {1-1}]{./pdf/pagegarde.pdf}
+
+
+\begin{titlepage}
+\begin{center}
+
+\textsc{\LARGE Licence ASRALL}\\[1.5cm]
+
+\textsc{\Large Exposé technique}\\[5.9cm]
+
+% Title
+{ \huge \bfseries Fully Automatic Installation\\[1.9cm] }
+
+% Author and supervisor
+\noindent
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+François \textsc{Dupont}
+\end{flushleft}
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+Florent \textsc{Fillon}
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+% Bottom of the page
+{\large \today}
+
+\end{center}
+\end{titlepage}
+
+
+%Page table des matières
+\tableofcontents
+
+%Introduction
+\chapter{Introduction}
+\section{Objectifs}
+\subsection{Définition}
+\textit{Fully Automatic Installation} ou \textsc{FAI} est un logiciel libre, inspiré de son équivalent \textsc{Solaris}, \textsc{Jumpstart}. Il permet d'installer et de configurer un système d'exploitation Linux sur une ou plusieurs machines, en utilisant un infrastructure client serveur, de façon rapide et automatisé.
+
+Il est à noter que \textsc{FAI} n'est pas interactif contrairement à d'autres logiciels remplissant sensiblement la même fonction
+\subsection{Utilité}
+\textsc{FAI} s'adresse particulièrement aux administrateurs ayant à gérer un grand parc de machine sous Linux, que ce parc soit \textit{virtualisé} ou physique (et même des \textit{chroot}s).
+
+\section{Histoire}
+
+
+\section{Pour qui?}
+
+
+
+\chapter{Technique}
+
+\chapter{Alternatives}
+
+
+\chapter{Sources}
+http://fai-project.org/
+
+\end{document}
