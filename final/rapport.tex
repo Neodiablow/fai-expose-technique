@@ -17,6 +17,7 @@
 \usepackage{pdfpages}
 \usepackage[acronym]{glossaries}
 \usepackage{hyperref}
+\usepackage{graphicx}
 %\usepackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
 %\hypersetup{pdfborder=0}
 
@@ -100,7 +101,20 @@ Cette partie pourrait avoir sa place dans le chapitre traitant de la technique �
 \chapter{Technique}
 
 \chapter{Alternatives}
+Il existe plusieurs alternatives à FAI, tels que Jumpstart(Solaris), Kickstart(RedHat), Rembo, ou encore ...................
 
+\section{Jumpstart}
+......................
+
+\section{Kickstart}
+Kickstart a été créé par RedHat afin d'automatiser l'installation de Fedora et Red Hate Enterprise Linux. Sa configuration s'effectue dans un fichier texte unique contenant une liste d'éléments, chacun identifié par un mot-clé. Ces éléments correspondent aux réponses à toutes les questions qui devraient normalement être posées lors d'une installation typique.\\
+Ce fichier peut être créé manuellement en partant d'un fichier vierge puis en écrivant les directives une par une.
+Cependant, et contrairement à FAI, il existe une interface utilisateur graphique, "Kickstart Configuration", permettant ainsi une configuration plus simple puisque il n'est pas nécessaire de se rappeler de la syntaxe exacte des fichiers :\\
+\begin{center}\includegraphics[scale=0.5]{./img/kickstart.png}\end{center}
+.......................
+
+\section{Rembo}
+Rembo est le successeur de BPBatch. C’est un environnement commercial de création et de déploiement d’images sur PC. Le serveur Rembo peut s’exécuter sur Windows, Linux, ou encore FreeBSD et s’appuie sur un serveur DHCP. Les machines clientes doivent donc supporter PXE. Les clients du réseau sont répartis en plusieurs groupes, ce qui permet de définir des comportements par type de machine, par salle, ... 
 
 \chapter{Sources}
 http://fai-project.org/
