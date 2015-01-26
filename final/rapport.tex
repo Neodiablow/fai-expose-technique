@@ -85,20 +85,49 @@ Florent \textsc{Fillion}
 \subsection{Définition}
 \textit{Fully Automatic Installation} ou \textsc{FAI} est un logiciel libre, inspiré de son équivalent \textsc{Solaris}, \textsc{Jumpstart}. Il permet d'installer et de configurer un système d'exploitation Linux sur une ou plusieurs machines, en utilisant un infrastructure client serveur, de façon rapide et automatisé.
 
-Il est à noter que \textsc{FAI} n'est pas interactif contrairement à d'autres logiciels remplissant sensiblement la même fonction. Ce logiciel est également considéré comme mature (il en est à sa 4\textsuperscript{ème} itération majeure (4.0) et est développé de façon continue depuis 1999.
+Il est à noter que \textsc{FAI} n'est pas interactif contrairement à d'autres logiciels remplissant sensiblement la même fonction. Ce logiciel est également considéré comme mature puisqu'il en est à sa 4\textsuperscript{ème} itération majeure (4.0) et est développé de façon continue depuis 1999.
+\textsc{FAI} est également très bien documenté, documentation disponible sous de multiple formats, avec un outil de recherche très efficace
 
 \subsection{Utilité}
 \textsc{FAI} s'adresse particulièrement aux administrateurs ayant à gérer un grand parc de machine sous Linux, que ce parc soit \textit{virtualisé} ou physique (et même des \textit{chroot}s).
 
 \section{Histoire}
+\textsc{FAI} est née en 1999 alors que Thomas \textsc{Lange}, Administrateur système experimenté sur Solaris a dû déployer plusieurs machines Debian/Gnu/Linux. Comme tous les administrateurs \textit{(compétents?)}, il déteste réaliser des choses répétitives et décide donc de s'atteler à l'automatisation du déploiement de machines Debian. Son projet est un succès, et est maintenant utilisé par de nombreuses administrations, écoles et entreprises.
+Il est également, depuis, devenu développeur Debian.
+
+Il a depuis été rejoint par d'autres développeurs, notamment Michael \textsc{Prokop} également développeur Debian et aussi mainteneur du dérivé minimaliste et orienté pour l'administration système \textsc{Grml}.
+Et par Kerim \textsc{Gueney} collègue de \textsc{Lange} à l'Université de Cologne.
+
+On peut remarquer que ce projet est particulièrement basé en Allemagne, cependant sa documentation (bien qu'actuellement non à jour) est disponible en Anglais.
+
 
 
 \section{Concepts}
-Cette partie pourrait avoir sa place dans le chapitre traitant de la technique à proprement parler, cependant, il nous semble essentiel d'exposer les principes fondamentaux (et simples une fois assimilés) de \textsc{FAI}.
+Cette partie pourrait avoir sa place dans le chapitre traitant de la technique à proprement parler, cependant, il nous semble essentiel d'exposer les principes fondamentaux (et simples une fois assimilés) de \textsc{FAI}. Il s'agit ici d'un survol, plus d'informations seront disponibles dans la partie réservé à la technique.
+
+\subsection{Architecture Client Serveur}
+Il est important de comprendre que \textsc{FAI} ne fonctionne qu'en mode client serveur (et pas par exemple en pair à pair). Avec 1 serveur pour N clients. Il est possible d'avoir plusieurs configurations clients disponibles, par exemple installer Debian stable sur certains type de machine et Debian unstable sur d'autres. 
 
 
+\subsection{L'installation}
+Le processus d'installation est assez simple : le client est éveillé par un quelconque moyen (USB, CD, PXE), il se connecte ensuite au serveur (cela nécessite d'avoir un réseau fonctionnel (DHCP). Notre client monte ensuite un partage NFS présent sur le serveur comme sa racine, une fois le noyau chargé, le script script d'installation FAI suit son court et installe les configurations demandées par l'administrateur. Ce/Ces scripts peuvent inclure un partitionnement des disques ou bien formatage, l'installation de logiciels spécifique, gestion du RAID materiel, etc...
+
+\subsection{La configuration}
+Comme expliqué précedemment il est possible d'avoir une grande variété de configuration différentes. Mais il est possible d'utiliser un système de classe (programmation) pour créer des groupes d'ordinateurs similaires et ainsi facilité l'industrialisation de notre installation (il serait contre productif d'avoir à un profil par client). Il est possible d'utiliser plusieurs langages pour réaliser les scripts, bash, perl, ruby.
 
 \chapter{Technique}
+
+\section{Préparer et installer FAI}
+
+\section{Le processus d'installation}
+
+\section{Mon premier boot}
+
+\section{Quid des architectures}
+
+\section{Installer autre chose que Debian}
+
+\section{Les updates}
 
 \chapter{Alternatives}
 Il existe plusieurs alternatives à FAI, tels que Jumpstart(Solaris), Kickstart(RedHat), Rembo, ou encore ...................
@@ -117,6 +146,10 @@ Cependant, et contrairement à FAI, il existe une interface utilisateur graphiqu
 Rembo est le successeur de BPBatch. C’est un environnement commercial de création et de déploiement d’images sur PC. Le serveur Rembo peut s’exécuter sur Windows, Linux, ou encore FreeBSD et s’appuie sur un serveur DHCP. Les machines clientes doivent donc supporter PXE. Les clients du réseau sont répartis en plusieurs groupes, ce qui permet de définir des comportements par type de machine, par salle, ... 
 
 \chapter{Sources}
-http://fai-project.org/
+http://fai-project.org/\\
+http://www.markus-gattol.name/ws/fai.html\\
+https://github.com/faiproject/fai\\
+https://www.linux-magazine.com/w3/issue/100/066-071\_FAI.pdf\\
+http://grml.org/\\
 
 \end{document}
