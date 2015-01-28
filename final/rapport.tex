@@ -114,14 +114,14 @@ La configuration de Jumpstart s'effectue à l'aide de plusieurs fichiers :\\
   \item Le fichier \textit{/etc/bootparams} qui est utilisées par les machines clientes pour démarrer.
   \item Le fichier \textit{/etc/ethers} qui contient les mappages d'adresses MAC pour les clients.\\
 \end{itemize}
+
 Lors de l'installation, le programme Jumpstart va tenter de faire correspondre le sytème à installer aux règles définies dans le fichier \textit{rules.ok}. Il lit donc ces règles, de la première à la dernière. Lorsque qu'une correspondance est établie entre un système et une règle, le programme JumpStart interrompt la lecture du fichier \textit{rules.ok} et commence l'installation du système d'après le profil correspondant à la règle associée.\\
 \begin{center}\includegraphics[scale=0.7]{./img/jumpstart2.png}\end{center}
-
-Un serveur DHCP peut également être mis en place sur le serveur Jumpstart afin d'attribuer automatiquement une configuration IP aux machines clientes.\\
-
+\vspace{1em}
+Un serveur DHCP peut également être mis en place sur le serveur Jumpstart afin d'attribuer automatiquement une configuration IP aux machines clientes.\\\\
 Voici un schéma représentant brièvement les requêtes effectuées entre les clients et le serveur lors du démarrage de l'installation :\\
 \begin{center}\includegraphics[scale=0.4]{./img/jumpstart.jpeg}\end{center}
-\subsubsection{Configuration du Serveur Jumpstart}
+\subsubsection{Configuration du serveur Jumpstart}
 Voici la liste des tâches à effectuer lors de la préparation à une installation JumpStart :\\
 \begin{itemize}
   \item Créer un répertoire JumpStart\\
@@ -134,19 +134,35 @@ Le fichier \textit{rules.ok} est une version générée du fichier \textit{rules
 \end{itemize}
 
 \section{Kickstart}
-Kickstart a été créé par RedHat afin d'automatiser l'installation de Fedora et Red Hate Enterprise Linux. Sa configuration s'effectue dans un fichier texte unique contenant une liste d'éléments, chacun identifié par un mot-clé. Ces éléments correspondent aux réponses à toutes les questions qui devraient normalement être posées lors d'une installation typique.\\
-Ce fichier peut être créé manuellement en partant d'un fichier vierge puis en écrivant les directives une par une.
-Cependant, et contrairement à FAI, il existe une interface utilisateur graphique, "Kickstart Configuration", permettant ainsi une configuration plus simple puisque il n'est pas nécessaire de se rappeler de la syntaxe exacte des fichiers :\\
+Kickstart a été créé par RedHat afin d'automatiser l'installation de Fedora et Red Hate Enterprise Linux. Sa configuration s'effectue dans un fichier kickstart \textit{ks.cfg} unique contenant une liste d'éléments, chacun identifié par un mot-clé.\\Ces éléments correspondent aux réponses à toutes les questions qui devraient normalement être posées lors d'une installation typique.\\
+Ce fichier peut être créé manuellement en partant d'un fichier vierge puis en écrivant les directives une par une.\\
+
+Cependant, et contrairement à FAI, il existe une interface utilisateur graphique, "Kickstart Configuration", permettant ainsi une configuration plus simple puisque il n'est pas nécessaire de se rappeler de la syntaxe exacte du fichier kickstart à configurer.\\\\
+Il suffit donc de suivre les étapes les unes après les autres afin de configurer petit à petit le fichier en question :\\
 \begin{center}\includegraphics[scale=0.5]{./img/kickstart.png}\end{center}
-.......................
+\vspace{1em}
+Si l'on souhaite effectuer une installation plus fine et personnalisée, il est également possible de rajouter des scripts d'installations via l'interface graphique.
+Ces scripts peuvent être exécuté avant (Pre-Installation Script) ou après l'installation (Post-Installation Script) :
+\begin{center}\includegraphics[scale=0.5]{./img/kickstart2.png}\end{center}
+\vspace{1em}
+Si l'on souhaite par exemple effectuer manuellement une configuration réseau dans le fichier kickstart, il suffira d'inclure le script dans la zone de texte prévue à cet effet.\\
+En effet, avant le début de l'installation, le fichier kickstart est analysé afin des détecter les différentes commandes à exécuter. Si une configuration réseau est détectée dans le fichier kickstart, avant que la section "Network Configuration" soit traitée, la configuration réseau sera prioritaire et prise en compte.\\
+Pour spécifier un langage de script particulier à utiliser pour exécuter le script, il suffit de sélectionner l'option "use an interpreter" et d'entrer le langage souhaité, par exemple \textit{/usr/bin/python2.7}.\\
+
+Une fois la configuration terminée, il est tout de même possible de consulter le fichier kickstart avant de le sauvegarder.
+
+Il suffit ensuite de placer le fichier \textit{ks.cfg} généré sur le support de démarrage souhaité, puis de booter la machine cliente sur ce même support de démarrage. Une commande de démarrage spéciale est à taper à l'invite de démarrage. Le programme d'installation va ainsi rechercher si un fichier kickstart est présent, puis va s'en servir pour procéder à l'installation du système.
 
 \section{Rembo}
-Rembo est le successeur de BPBatch. Il a été créé par "Rembo Technology", une société suisse spécialisée dans les outils de gestion applicative et de virtualisation de serveurs, qui fut ensuite rachetée en 2006 par IBM. Rembo est un environnement de déploiement d'applications qui permet d'installer rapidemment et en même temps, n machines du même type. Il peut s’exécuter sur Windows, Linux ou encore FreeBSD et s’appuie sur un serveur DHCP. Les machines clientes doivent donc supporter PXE et auront dont exactement la même installation. L'installation s'appuie sur l'utilisation d'une platine virtuelle, sur laquelle on sélectionne les programmes à installer. La procédure est ensuite entièrement automatique, et personnalisable à l'infini. Une machine virtuelle est créée à chaque installation puis est effacée lorsque le processus est terminé.
+Rembo est le successeur de BPBatch. Il a été créé par "Rembo Technology", une société suisse spécialisée dans les outils de gestion applicative et de virtualisation de serveurs, qui fut ensuite rachetée en 2006 par IBM. Rembo est un environnement de déploiement d'applications qui permet d'installer rapidemment et en même temps, n machines du même type. Il peut s’exécuter sur Windows, Linux ou encore FreeBSD et s’appuie sur un serveur DHCP. Les machines clientes doivent donc supporter PXE et auront dont exactement la même installation.\\
+
+L'installation s'appuie sur l'utilisation d'une platine virtuelle, sur laquelle on sélectionne les programmes à installer. La procédure est ensuite entièrement automatique, et personnalisable à l'infini. Une machine virtuelle est créée à chaque installation puis est effacée lorsque le processus est terminé.
 
 \chapter{Sources}
 \begin{itemize}
   \item http://fai-project.org/\\\\
-  \item https://docs.oracle.com/
+  \item https://docs.oracle.com/\\\\
+  \item https://access.redhat.com/documentation/\\\\
 \end{itemize}
 
 \end{document}
