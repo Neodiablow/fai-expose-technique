@@ -86,10 +86,11 @@ Florent \textsc{Fillion}
 \textit{Fully Automatic Installation} ou \textsc{FAI} est un logiciel libre, inspiré de son équivalent \textsc{Solaris}, \textsc{Jumpstart}. Il permet d'installer et de configurer un système d'exploitation Linux sur une ou plusieurs machines, en utilisant un infrastructure client serveur, de façon rapide et automatisé.
 
 Il est à noter que \textsc{FAI} n'est pas interactif contrairement à d'autres logiciels remplissant sensiblement la même fonction. Ce logiciel est également considéré comme mature puisqu'il en est à sa 4\textsuperscript{ème} itération majeure (4.0) et est développé de façon continue depuis 1999.
-\textsc{FAI} est également très bien documenté, documentation disponible sous de multiple formats, avec un outil de recherche très efficace
 
 \subsection{Utilité}
 \textsc{FAI} s'adresse particulièrement aux administrateurs ayant à gérer un grand parc de machine sous Linux, que ce parc soit \textit{virtualisé} ou physique (et même des \textit{chroot}s).
+On peut récemment cité EDF qui a utilisé FAI pour déployer son cluster/Super Ordinateur utilisant Debian. (classé dans les 50 premiers mondiaux au moment de moment de la son déploiement).
+De nombreuses université comme le MIT l'utilisent pour gérer leur parc de machines GNU/Linux en comportant en général des milliers de postes clients.
 
 \section{Histoire}
 \textsc{FAI} est née en 1999 alors que Thomas \textsc{Lange}, Administrateur système experimenté sur Solaris a dû déployer plusieurs machines Debian/Gnu/Linux. Comme tous les administrateurs \textit{(compétents?)}, il déteste réaliser des choses répétitives et décide donc de s'atteler à l'automatisation du déploiement de machines Debian. Son projet est un succès, et est maintenant utilisé par de nombreuses administrations, écoles et entreprises.
@@ -98,7 +99,11 @@ Il est également, depuis, devenu développeur Debian.
 Il a depuis été rejoint par d'autres développeurs, notamment Michael \textsc{Prokop} également développeur Debian et aussi mainteneur du dérivé minimaliste et orienté pour l'administration système \textsc{Grml}.
 Et par Kerim \textsc{Gueney} collègue de \textsc{Lange} à l'Université de Cologne.
 
-On peut remarquer que ce projet est particulièrement basé en Allemagne, cependant sa documentation (bien qu'actuellement non à jour) est disponible en Anglais.
+\subsection{La documentation}
+On peut remarquer que ce projet est assez germano centré, tous les developpeurs sont allemands ou bien travaillent dans une université allemande.
+Cela ne pose pas de grands problèmes dans la mesure ou presque toute la documentation disponible est disponible en anglais.
+Le problème est que cette dernière n'est pas maintenu très à jour (elle est à jour mais de façon éclaté, wiki à jour mais le guide non, parfois l'inverse). Il existe également une documentation 
+la quasi totalité  cependant sa documentation (bien qu'actuellement non à jour) est disponible en Anglais.
 
 
 
@@ -110,7 +115,7 @@ Il est important de comprendre que \textsc{FAI} ne fonctionne qu'en mode client 
 
 
 \subsection{L'installation}
-Le processus d'installation est assez simple : le client est éveillé par un quelconque moyen (USB, CD, PXE), il se connecte ensuite au serveur (cela nécessite d'avoir un réseau fonctionnel (DHCP). Notre client monte ensuite un partage NFS présent sur le serveur comme sa racine, une fois le noyau chargé, le script script d'installation FAI suit son court et installe les configurations demandées par l'administrateur. Ce/Ces scripts peuvent inclure un partitionnement des disques ou bien formatage, l'installation de logiciels spécifique, gestion du RAID materiel, etc...
+Le processus d'installation est assez simple : le client est éveillé par un quelconque moyen (USB, CD, PXE), il se connecte ensuite au serveur (cela nécessite d'avoir un réseau fonctionnel (DHCP)). Notre client monte ensuite un partage NFS présent sur le serveur comme sa racine, une fois le noyau chargé, le script script d'installation FAI suit son court et installe les configurations demandées par l'administrateur. Ce/Ces scripts peuvent inclure un partitionnement des disques ou bien formatage, l'installation de logiciels spécifique, gestion du RAID materiel, etc...
 
 \subsection{La configuration}
 Comme expliqué précedemment il est possible d'avoir une grande variété de configuration différentes. Mais il est possible d'utiliser un système de classe (programmation) pour créer des groupes d'ordinateurs similaires et ainsi facilité l'industrialisation de notre installation (il serait contre productif d'avoir à un profil par client). Il est possible d'utiliser plusieurs langages pour réaliser les scripts, bash, perl, ruby.
@@ -125,8 +130,17 @@ installer debmirror et utiliser mkdebmirror
 
 installer apache 2 ==> Pourquoi?
 
-mettre la variable NFSROOT
+mettre la variable NFSROOT dans NFSroot (attention pas à jour)
+modifier le sources.list qui sera envoyer au client par exemple 192.168.42.254
+attention potentialité de crash a cause wheezy  koeln
 
+installer fai-quickstart (il n'est pas installer par defaut sur la distrib fai (WTF))
+
+la configuration de l'installation (pas les données) sont contenus dans /etc/fai.conf
+manque de config peut potentiellement crasher
+
+
+FAI\_CONFIG\_SRC cette variable accepte un URI (universal ressource locator, ce la permet entre autre de pouvoir récupérer une configuration depuis un server svn, git, un espace de travail partagé type nfs et evidemment )
 
 \section{Préparer et installer FAI}
 
