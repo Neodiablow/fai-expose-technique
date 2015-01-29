@@ -113,7 +113,7 @@ Cette partie pourrait avoir sa place dans le chapitre traitant de la technique �
 \subsection{Réseau}
 
 \subsubsection{Classique}
-Pour utiliser \textsc{FAI} vous devez avoir un réseau fonctionnel, avec un dhcp configuré, et un DNS fonctionnel.
+Pour utiliser \textsc{FAI} vous devez avoir un réseau fonctionnel, avec un dhcp configuré, et un DNS fonctionnel. Moins classique, vous \textsc{devez} utiliser vos machines avec un démarrage réseau par PXE pour l'installation.
 
 \subsubsection{Architecture Client Serveur}
 \textsc{FAI} ne fonctionne qu'en mode client serveur (et pas par exemple en pair à pair). Avec 1 serveur pour N clients. Il faut cependant bien comprendre qu'un serveur peut délivrer plusieurs configurations (une Debian stable, une Debian testing, un Ubuntu ou même un RedHat), tout dépend de la configuration.
@@ -126,11 +126,49 @@ Une fois votre réseau en place et \textsc{FAI} installé sur un serveur vous po
 Il est possible d'utiliser un système de classe (programmation) pour créer des groupes d'ordinateurs similaires et ainsi facilité l'industrialisation de notre installation (il serait contre productif d'avoir à un profil par client). Il est possible d'utiliser plusieurs langages pour réaliser les scripts, bash, perl, ruby.
 
 \subsubsection{La configuration}
-La configuration doit être effectué avant de lancer une installation, pour rappel l'installation n'est pas intereactive, en revanche de nombreuses choses sont paramettrables en modifiant des fichiers texte et parfois quelques scripts 
+La configuration doit être effectué avant de lancer une installation, pour rappel cette dernière n'est pas interactive, en revanche de nombreuses choses sont paramétrables en modifiant les bons fichiers et parfois quelques scripts.
 
 
 \chapter{Technique}
-Dans cette partie nous allons expliquer le fonctionnement plus précis de FAI en détaillant chaque étpae et dans la mesure du possible les différentes technologies disponibles pour réaliser ces actions ainsi que leur principes. 
+Dans cette partie nous allons expliquer le fonctionnement plus précis de FAI en détaillant chaque composant majeur et dans la mesure du possible les différentes technologies disponibles pour réaliser ces actions ainsi que leurs principes.
+
+\section{La base}
+
+
+\subsection{DNS, DHCP et PXE}
+Pour pouvoir utiliser \textsc{FAI} il faut avoir un DHCP et un DNS fonctionnel, bref rappel de leur utilité, le DHCP attribue une adresse IP à une adresse MAC, le DNS donne un nom à une IP.\\
+La distribution \textsc{fai-server} propose d'utiliser le serveur iscdhcp une implémentation de référence maintenu par l'Internet Systems Consortium qui maintien également BIND \textit{(bref un truc sérieux)}. 
+Pour une petite installation il est possible des la jouer \textit{old school} et d'utiliser le fichier /etc/hosts plutôt que d'utiliser un DNS sérieux, la documentation (et la logique aussi) nous dit que cela fonctionne pareil.
+
+La configuration du DHCP est aisé même quand c'est la première fois et même avec un PXE coté client puisque la documentation interne fournie 
+
+
+\subsection{Installer fai-quickstart}
+De façon assez surprenant fai-quickstart (qui est indispensable à l'utilisation de FAI) n'est pas disponible sur la distribution FAI de base.\\
+Ce paquet contient le serveur DHCP cité ci-dessus. Ainsi que le serveur tftp qui sera utilisé pour transférer notre distribution plus tard.
+
+\subsubsection{TFTP}
+\textsc{Trivial File Transfert Protocole} est un protocole de transfert de fichier qui utilise  le protocole UDP (rappelons qu'UDP est un protocole de la couche 4 du modèle OSI, la couche transport. Contrairement à TCP, UDP ne fait pas de négociations et ne vérifie pas non plus l'intégrité des données qu'il délivre). \\
+Ce protocole est généralement utilisé pour le streaming vidéo/audio ou encore les jeux en réseaux, plus généralement pour toutes les applications où l'exactitude du message est négligeable devant la nécessité de réactivité. Avec \textsc{FAI} on tire partie du la capacité d'UDP à envoyer très vite beaucoup de données de petites taille. Ce gain de vitesse par rapport à tcp est lié à l'absence de handshake.
+L'expérience montre que l'UDP utilisé sur un réseau local de \textsc{qualité} ne présente presque jamais de problèmes d'intégrité.\\
+TFTP en lui même est une version simplifié de FTP (pas de gestion de droits pas de possibilité de ls ou delete dans un répertoire) il est conçu pour la mise à jour ou la copie simple de fichiers.
+
+
+
+\subsection{NFSROOT}
+
+
+\subsection{configuration de bases}
+
+
+\section{Configurations avancées et options en tout genres}
+On peut configurer de nombreuses choses avec \textsc{FAI}
+
+\subsection{Le Debian mirror}
+Une des astuces facile voire évidente est l'installation d'un miroir Debian en local (que ce soit ou non sur notre fai-server)
+
+
+
 
 \chapter{Alternatives}
 
@@ -185,7 +223,7 @@ Une fois la configuration terminée, il est tout de même possible de consulter 
 Il suffit ensuite de placer le fichier \textit{ks.cfg} généré sur le support de démarrage souhaité, puis de booter la machine cliente sur ce même support de démarrage. Une commande de démarrage spéciale est à taper à l'invite de démarrage. Le programme d'installation va ainsi rechercher si un fichier kickstart est présent, puis va s'en servir pour procéder à l'installation du système.
 
 \section{Rembo}
-Rembo est le successeur de BPBatch. Il a été créé par "Rembo Technology", une société suisse spécialisée dans les outils de gestion applicative et de virtualisation de serveurs, qui fut ensuite rachetée en 2006 par IBM. Rembo est un environnement de déploiement d'applications qui permet d'installer rapidemment et en même temps, n machines du même type. Il peut s’exécuter sur Windows, Linux ou encore FreeBSD et s’appuie sur un serveur DHCP. Les machines clientes doivent donc supporter PXE et auront dont exactement la même installation.\\
+Rembo est le successeur de BPBatch. Il a été créé par "Rembo Technology", une société suisse spécialisée dans les outils de gestion applicative et de virtualisation de serveurs, qui fut ensuite rachetée en 2006 par IBM. Rembo est un environnement de déploiement d'applications qui permet d'installer rapidement et en même temps, n machines du même type. Il peut s’exécuter sur Windows, Linux ou encore FreeBSD et s’appuie sur un serveur DHCP. Les machines clientes doivent donc supporter PXE et auront dont exactement la même installation.\\
 
 L'installation s'appuie sur l'utilisation d'une platine virtuelle, sur laquelle on sélectionne les programmes à installer. La procédure est ensuite entièrement automatique, et personnalisable à l'infini. Une machine virtuelle est créée à chaque installation puis est effacée lorsque le processus est terminé.\\
 ..............................................
@@ -195,7 +233,7 @@ Clonezilla est une logiciel libre créé par le laboratoire de recherche NCHC po
 Il existe deux version de Clonezilla, "Clonezilla Live" et "Clonezilla Server" :\\
 \begin{itemize}
   \item Clonezilla Live est utilisé par l'intermédiaire d'un Live CD, (ou clé usb également). Il permet à l'utilisateur d'effectuer directement depuis la machine une sauvegarde d'un disque ou d'une partition, une restauration d'une image depuis un disque, ou encore un clonage d'une image vers un autre disque. Cepedendant, ces actions ne peuvent s'effectuer que sur une seule machine à la fois puisque le Live CD est obligatoire.\\
-  \item Clonezilla Server (ou Clonezilla SE) est utilisé depuis un serveur et autorise plusieurs postes à se connecter simultanément par l'intermédiaire d'un réseau commun. Il n'y a donc pas besoin de Live CD ce qui permet d'effectuer des sauvegardes/restaurations/clonages sur plusieurs machines à la fois. Un server DRBL (Diskless Remote Boot in Linux) est utilisé ce qui permet aux stations esclaves concernées d'effectuer un démarrage PXE.
+  \item Clonezilla Server (ou Clonezilla SE) est utilisé depuis un serveur et autorise plusieurs postes à se connecter simultanément par l'intermédiaire d'un réseau commun. Il n'y a donc pas besoin de Live CD ce qui permet d'effectuer des sauvegardes/restaurations/clonages sur plusieurs machines à la fois. Un serveur DRBL (Diskless Remote Boot in Linux) est utilisé ce qui permet aux stations esclaves concernées d'effectuer un démarrage PXE.
 \end{itemize}
 \begin{center}\includegraphics[scale=0.9]{./img/clonezilla.jpeg}\end{center}
 \vspace{1em}
