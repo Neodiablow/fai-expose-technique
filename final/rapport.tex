@@ -140,8 +140,36 @@ Pour pouvoir utiliser \textsc{FAI} il faut avoir un DHCP et un DNS fonctionnel, 
 La distribution \textsc{fai-server} propose d'utiliser le serveur iscdhcp une implémentation de référence maintenu par l'Internet Systems Consortium qui maintien également BIND \textit{(bref un truc sérieux)}. 
 Pour une petite installation il est possible des la jouer \textit{old school} et d'utiliser le fichier /etc/hosts plutôt que d'utiliser un DNS sérieux, la documentation (et la logique aussi) nous dit que cela fonctionne pareil.
 
-La configuration du DHCP est aisé même quand c'est la première fois et même avec un PXE coté client puisque la documentation interne fournie 
+La configuration du DHCP est aisé même quand c'est la première fois et même avec un PXE coté client puisque la documentation interne fournie.
 
+\subsubsection{Fonctionnement de PXE}
+L'amorçage PXE (Pre-boot eXecution Environment) est un environnement de démarrage d'ordinateurs p\
+ermettant à une machine de démarrer depuis le réseau en récupérant une image de système d'exploit\
+ation qui se trouve sur un serveur.\\
+L'image stockée sur le serveur PXE peut être un système d'exploitation brut ou bien un système d'\
+exploitation personnalisé avec des composantes logicielles (suite bureautique, utilitaires, packs\
+ de sécurité, scripts, etc...).
+L'image peut ensuite être installée sur une machine cliente distante (ou un serveur distant) qui \
+a été amorcée en PXE.\\
+
+Pour activer PXE côté client, il suffit d'activer celui-ci dans le bios de la machine. L’option s\
+e trouve fréquemment dans un menu concernant la carte réseau.
+Cependant, PXE n'est pas toujours disponible notamment sur les machines ne possédant pas de carte\
+ réseau suffisamment récente.
+\\
+Pour qu'une machine puisse utiliser PXE, plusieurs serveurs sont nécessaires : un serveur PXE, un\
+ serveur DHCP et un serveur TFTP.\\\\
+L'amorce par PXE s'effectue ainsi en plusieurs étapes :
+\begin{enumerate}
+  \item la machine cliente demande une adresse IP au serveur DHCP
+  \item une fois l'adresse IP récupérée, le client établie une connexion avec le serveur PXE puis\
+ recherche sur ce serveur un programme de démarrage réseau
+  \item lorsque le programme de démarrage est trouvé, la machine cliente télécharge le fichier à \
+amorcer depuis un serveur TFTP (TFTP étant un protocole de transfert de fichiers fonctionnant en \
+UDP sur le port 69)
+  \item le fichier étant récupéré, le client l'exécute sur sa machine pour pouvoir ``booter'' un no\
+yau (noyau Linux par exemple)
+\end{enumerate}
 
 \subsection{Installer fai-quickstart}
 De façon assez surprenant fai-quickstart (qui est indispensable à l'utilisation de FAI) n'est pas disponible sur la distribution FAI de base.\\
@@ -263,6 +291,7 @@ Lors d'un clonage par exemple, une fois l'image disponible sur le serveur, celui
   \item https://access.redhat.com/documentation/\\
   \item http://http://clonezilla.org/\\
   \item https://www.projet-plume.org/fiche/drblclonezilla\\
+  \item http://fr.wikipedia.org/wiki/Preboot\_Execution\_Environment\\
 \end{itemize}
 
 
