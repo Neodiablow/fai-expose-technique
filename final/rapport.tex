@@ -168,6 +168,18 @@ Il existe deux version de Clonezilla, "Clonezilla Live" et "Clonezilla Server" :
 \end{itemize}
 \begin{center}\includegraphics[scale=0.9]{./img/clonezilla.jpeg}\end{center}
 \vspace{1em}
+\subsubsection{Le serveur DRBL}
+DRBL permet de mettre à disposition un environnement système léger pour les machines clientes et intègre Clonezilla.\\
+Il est donc utilisé, le plus souvent, pour le clonage massif de postes de travail et le déploiement rapide de salles informatiques. Il s'appuie exclusivement sur des logiciels libres tel que \textit{partimage}, \textit{ntfsclone} ou encore \textit{partclone} pour cloner des disques/partitions, et utilise également \textit{udpcast} pour transférer des données simultanément sur plusieurs destinations via le réseau (unicast/broadcast/multicast).
+
+DRBL supporte les systèmes de fichiers ext2, ext3, ext4, reiser4, xfs, jfs, fat, ntfs, hfs+, ufs, vmfs3 ainsi que LVM2. Les bootloader syslinux et grub peuvent être installés.
+
+\subsubsection{Principe général de fonctionnement de Clonezilla Server}
+\vspace{1em}
+\begin{center}\includegraphics[scale=0.7]{./img/clonezilla2.png}\end{center}
+\vspace{1em}
+Le serveur Clonezilla a besoin d'une image type, afin qu'il puisse s'en servir par la suite comme référence pour sauvegarder, restaurer ou cloner cette même image sur les différentes machines clientes.\\
+Lors d'un clonage par exemple, une fois l'image disponible sur le serveur, celui-ci va la copier simultanément sur les différentes machines clientes, via le réseaux (PXE).
 
 \chapter{Conclusion}
 
@@ -176,7 +188,8 @@ Il existe deux version de Clonezilla, "Clonezilla Live" et "Clonezilla Server" :
   \item http://fai-project.org/\\\\
   \item https://docs.oracle.com/\\\\
   \item https://access.redhat.com/documentation/\\\\
-  \item httt://http://clonezilla.org/\\\\
+  \item http://http://clonezilla.org/\\\\
+  \item https://www.projet-plume.org/fiche/drblclonezilla\\\\
 \end{itemize}
 
 
