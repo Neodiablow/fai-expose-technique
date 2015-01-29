@@ -132,63 +132,100 @@ La configuration doit être effectué avant de lancer une installation, pour rap
 \chapter{Technique}
 Dans cette partie nous allons expliquer le fonctionnement plus précis de FAI en détaillant chaque étpae et dans la mesure du possible les différentes technologies disponibles pour réaliser ces actions ainsi que leur principes. 
 
-
-Configurer un DHCP
-
-installer debmirror et utiliser mkdebmirror
-
-installer apache 2 ==> Pourquoi?
-
-mettre la variable NFSROOT dans NFSroot (attention pas à jour)
-modifier le sources.list qui sera envoyer au client par exemple 192.168.42.254
-attention potentialité de crash a cause wheezy  koeln
-
-installer fai-quickstart (il n'est pas installer par defaut sur la distrib fai (WTF))
-
-la configuration de l'installation (pas les données) sont contenus dans /etc/fai.conf
-manque de config peut potentiellement crasher
-
-
-FAI\_CONFIG\_SRC cette variable accepte un URI (universal ressource locator, ce la permet entre autre de pouvoir récupérer une configuration depuis un server svn, git, un espace de travail partagé type nfs et evidemment )
-
-\section{Préparer et installer FAI}
-
-
-\section{Le processus d'installation}
-
-\section{Mon premier boot}
-
-\section{Quid des architectures}
-
-\section{Installer autre chose que Debian}
-
-\section{Les updates}
-
-\section{Autres}
-    Accelerer grâce au multicast
-
 \chapter{Alternatives}
-Il existe plusieurs alternatives à FAI, tels que Jumpstart(Solaris), Kickstart(RedHat), Rembo, ou encore ...................
 
 \section{Jumpstart}
-......................
+Jumpstart a été créé par Sun Microsystems, qui fut ensuite racheté en 2009 par Oracle Corporation. C'est un outil permettant d'automatiser l'installation d'une ou plusieurs machines utilisant Solaris comme système d'exploitation.\\
+La configuration de Jumpstart s'effectue à l'aide de plusieurs fichiers :\\
+\begin{itemize}
+  \item Le fichier \textit{profile} qui définit les partitions de disques.
+  \item Les fichiers \textit{rules} et \textit{rules.ok} qui définissent les règles correspondant à un profil particulier de client à installer.
+  \item Des scripts s'exécutant avant et après l'installation de la machine cliente.
+  \item Le fichier \textit{sysidcfg} qui définit les informations de configuration du client, comme par exemple son nom d'hôte, son adresse IP, etc...
+  \item Le fichier \textit{/etc/bootparams} qui est utilisées par les machines clientes pour démarrer.
+  \item Le fichier \textit{/etc/ethers} qui contient les mappages d'adresses MAC pour les clients.\\
+\end{itemize}
+
+Lors de l'installation, le programme Jumpstart va tenter de faire correspondre le sytème à installer aux règles définies dans le fichier \textit{rules.ok}. Il lit donc ces règles, de la première à la dernière. Lorsque qu'une correspondance est établie entre un système et une règle, le programme JumpStart interrompt la lecture du fichier \textit{rules.ok} et commence l'installation du système d'après le profil correspondant à la règle associée.\\
+\begin{center}\includegraphics[scale=0.7]{./img/jumpstart2.png}\end{center}
+\vspace{1em}
+Un serveur DHCP peut également être mis en place sur le serveur Jumpstart afin d'attribuer automatiquement une configuration IP aux machines clientes.\\\\
+Voici un schéma représentant brièvement les requêtes effectuées entre les clients et le serveur lors du démarrage de l'installation :\\
+\begin{center}\includegraphics[scale=0.4]{./img/jumpstart.jpeg}\end{center}
+\subsubsection{Configuration du serveur Jumpstart}
+Voici la liste des tâches à effectuer lors de la préparation à une installation JumpStart :\\
+\begin{itemize}
+  \item Créer un répertoire JumpStart\\
+  \item Ajouter des règles pour chaque groupe dans le fichier \textit{rules} :\\
+Chaque règle définit un groupe d'après un ou plusieurs attributs système. La règle lie chaque groupe à un profil.\\
+  \item Créer un profil pour chaque règle :\\
+Un profil est un fichier texte qui définit l'installation du logiciel Solaris, et indique par exemple le groupe de logiciels devant être installé sur un système. À chaque règle correspond un profil qui définit la procédure d'installation du logiciel Solaris sur un système. Ce profil est utilisé dès qu'une correspondance est établie entre une règle et un système déterminés.\\Généralement, on définit un profil pour chaque règle. Le même profil peut toutefois être utilisé dans plusieurs règles.\\
+  \item Valider le fichier \textit{rules} :\\
+Le fichier \textit{rules.ok} est une version générée du fichier \textit{rules} qu'utilise JumpStart pour détecter le système à installer avec un profil. Le fichier \textit{rules} se valide par l'intermédiaire d'un script \textit{check}.
+\end{itemize}
 
 \section{Kickstart}
-Kickstart a été créé par RedHat afin d'automatiser l'installation de Fedora et Red Hate Enterprise Linux. Sa configuration s'effectue dans un fichier texte unique contenant une liste d'éléments, chacun identifié par un mot-clé. Ces éléments correspondent aux réponses à toutes les questions qui devraient normalement être posées lors d'une installation typique.\\
-Ce fichier peut être créé manuellement en partant d'un fichier vierge puis en écrivant les directives une par une.
-Cependant, et contrairement à FAI, il existe une interface utilisateur graphique, "Kickstart Configuration", permettant ainsi une configuration plus simple puisque il n'est pas nécessaire de se rappeler de la syntaxe exacte des fichiers :\\
+Kickstart a été créé par RedHat afin d'automatiser l'installation de Fedora et Red Hate Enterprise Linux. Sa configuration s'effectue dans un fichier kickstart \textit{ks.cfg} unique contenant une liste d'éléments, chacun identifié par un mot-clé.\\Ces éléments correspondent aux réponses à toutes les questions qui devraient normalement être posées lors d'une installation typique.\\
+Ce fichier peut être créé manuellement en partant d'un fichier vierge puis en écrivant les directives une par une.\\
+
+Cependant, et contrairement à FAI, il existe une interface utilisateur graphique, "Kickstart Configuration", permettant ainsi une configuration plus simple puisque il n'est pas nécessaire de se rappeler de la syntaxe exacte du fichier kickstart à configurer.\\\\
+Il suffit donc de suivre les étapes les unes après les autres afin de configurer petit à petit le fichier en question :\\
 \begin{center}\includegraphics[scale=0.5]{./img/kickstart.png}\end{center}
-.......................
+\vspace{1em}
+Si l'on souhaite effectuer une installation plus fine et personnalisée, il est également possible de rajouter des scripts d'installations via l'interface graphique.
+Ces scripts peuvent être exécuté avant (Pre-Installation Script) ou après l'installation (Post-Installation Script) :
+\begin{center}\includegraphics[scale=0.5]{./img/kickstart2.png}\end{center}
+\vspace{1em}
+Si l'on souhaite par exemple effectuer manuellement une configuration réseau dans le fichier kickstart, il suffira d'inclure le script dans la zone de texte prévue à cet effet.\\
+En effet, avant le début de l'installation, le fichier kickstart est analysé afin des détecter les différentes commandes à exécuter. Si une configuration réseau est détectée dans le fichier kickstart, avant que la section "Network Configuration" soit traitée, la configuration réseau sera prioritaire et prise en compte.\\
+Pour spécifier un langage de script particulier à utiliser pour exécuter le script, il suffit de sélectionner l'option "use an interpreter" et d'entrer le langage souhaité, par exemple \textit{/usr/bin/python2.7}.\\
+
+Une fois la configuration terminée, il est tout de même possible de consulter le fichier kickstart avant de le sauvegarder.
+
+Il suffit ensuite de placer le fichier \textit{ks.cfg} généré sur le support de démarrage souhaité, puis de booter la machine cliente sur ce même support de démarrage. Une commande de démarrage spéciale est à taper à l'invite de démarrage. Le programme d'installation va ainsi rechercher si un fichier kickstart est présent, puis va s'en servir pour procéder à l'installation du système.
 
 \section{Rembo}
-Rembo est le successeur de BPBatch. C’est un environnement commercial de création et de déploiement d’images sur PC. Le serveur Rembo peut s’exécuter sur Windows, Linux, ou encore FreeBSD et s’appuie sur un serveur DHCP. Les machines clientes doivent donc supporter PXE. Les clients du réseau sont répartis en plusieurs groupes, ce qui permet de définir des comportements par type de machine, par salle, ... 
+Rembo est le successeur de BPBatch. Il a été créé par "Rembo Technology", une société suisse spécialisée dans les outils de gestion applicative et de virtualisation de serveurs, qui fut ensuite rachetée en 2006 par IBM. Rembo est un environnement de déploiement d'applications qui permet d'installer rapidemment et en même temps, n machines du même type. Il peut s’exécuter sur Windows, Linux ou encore FreeBSD et s’appuie sur un serveur DHCP. Les machines clientes doivent donc supporter PXE et auront dont exactement la même installation.\\
+
+L'installation s'appuie sur l'utilisation d'une platine virtuelle, sur laquelle on sélectionne les programmes à installer. La procédure est ensuite entièrement automatique, et personnalisable à l'infini. Une machine virtuelle est créée à chaque installation puis est effacée lorsque le processus est terminé.\\
+..............................................
+
+\section{Clonezilla}
+Clonezilla est une logiciel libre créé par le laboratoire de recherche NCHC pouvant être utilisé sur plusieurs systèmes d'exploitations différents tel que Linux, Windows ou encore MAC OS X par exemple. Il permet de créer une image de sauvegarde d'un disque dur ou d'une ou plusieurs partitions, pour ensuite la restaurer ou la cloner sur une (unicast) ou plusieurs machines clientes (multicast).\\
+Il existe deux version de Clonezilla, "Clonezilla Live" et "Clonezilla Server" :\\
+\begin{itemize}
+  \item Clonezilla Live est utilisé par l'intermédiaire d'un Live CD, (ou clé usb également). Il permet à l'utilisateur d'effectuer directement depuis la machine une sauvegarde d'un disque ou d'une partition, une restauration d'une image depuis un disque, ou encore un clonage d'une image vers un autre disque. Cepedendant, ces actions ne peuvent s'effectuer que sur une seule machine à la fois puisque le Live CD est obligatoire.\\
+  \item Clonezilla Server (ou Clonezilla SE) est utilisé depuis un serveur et autorise plusieurs postes à se connecter simultanément par l'intermédiaire d'un réseau commun. Il n'y a donc pas besoin de Live CD ce qui permet d'effectuer des sauvegardes/restaurations/clonages sur plusieurs machines à la fois. Un server DRBL (Diskless Remote Boot in Linux) est utilisé ce qui permet aux stations esclaves concernées d'effectuer un démarrage PXE.
+\end{itemize}
+\begin{center}\includegraphics[scale=0.9]{./img/clonezilla.jpeg}\end{center}
+\vspace{1em}
+\subsubsection{Le serveur DRBL}
+DRBL permet de mettre à disposition un environnement système léger pour les machines clientes et intègre Clonezilla.\\
+Il est donc utilisé, le plus souvent, pour le clonage massif de postes de travail et le déploiement rapide de salles informatiques. Il s'appuie exclusivement sur des logiciels libres tel que \textit{partimage}, \textit{ntfsclone} ou encore \textit{partclone} pour cloner des disques/partitions, et utilise également \textit{udpcast} pour transférer des données simultanément sur plusieurs destinations via le réseau (unicast/broadcast/multicast).
+
+DRBL supporte les systèmes de fichiers ext2, ext3, ext4, reiser4, xfs, jfs, fat, ntfs, hfs+, ufs, vmfs3 ainsi que LVM2. Les bootloader syslinux et grub peuvent être installés.
+
+\subsubsection{Principe général de fonctionnement de Clonezilla Server}
+\vspace{1em}
+\begin{center}\includegraphics[scale=0.7]{./img/clonezilla2.png}\end{center}
+\vspace{1em}
+Le serveur Clonezilla a besoin d'une image type, afin qu'il puisse s'en servir par la suite comme référence pour sauvegarder, restaurer ou cloner cette même image sur les différentes machines clientes.\\
+Lors d'un clonage par exemple, une fois l'image disponible sur le serveur, celui-ci va la copier simultanément sur les différentes machines clientes, via le réseaux (PXE).
+
+\chapter{Conclusion}
 
 \chapter{Sources}
-http://fai-project.org/\\
-http://www.markus-gattol.name/ws/fai.html\\
-https://github.com/faiproject/fai\\
-https://www.linux-magazine.com/w3/issue/100/066-071\_FAI.pdf\\
-http://grml.org/\\
+\begin{itemize}
+  \item http://fai-project.org/\\\\
+  \item http://www.markus-gattol.name/ws/fai.html\\
+  \item https://github.com/faiproject/fai\\
+  \item https://www.linux-magazine.com/w3/issue/100/066-071\_FAI.pdf\\
+  \item http://grml.org/\\
+  \item https://docs.oracle.com/\\\\
+  \item https://access.redhat.com/documentation/\\\\
+  \item http://http://clonezilla.org/\\\\
+  \item https://www.projet-plume.org/fiche/drblclonezilla\\\\
+\end{itemize}
 
 
 \end{document}
