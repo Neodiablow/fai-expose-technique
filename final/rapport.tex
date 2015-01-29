@@ -101,7 +101,7 @@ Cette partie pourrait avoir sa place dans le chapitre traitant de la technique �
 \chapter{Technique}
 
 \chapter{Alternatives}
-Il existe plusieurs alternatives à FAI, tels que Jumpstart(Solaris), Kickstart(RedHat), Rembo, ou encore ...................
+Il existe plusieurs alternatives à FAI, tels que Jumpstart, Kickstart, Rembo, ou encore Clonezilla par exemple...............................................................
 
 \section{Jumpstart}
 Jumpstart a été créé par Sun Microsystems, qui fut ensuite racheté en 2009 par Oracle Corporation. C'est un outil permettant d'automatiser l'installation d'une ou plusieurs machines utilisant Solaris comme système d'exploitation.\\
@@ -156,13 +156,28 @@ Il suffit ensuite de placer le fichier \textit{ks.cfg} généré sur le support 
 \section{Rembo}
 Rembo est le successeur de BPBatch. Il a été créé par "Rembo Technology", une société suisse spécialisée dans les outils de gestion applicative et de virtualisation de serveurs, qui fut ensuite rachetée en 2006 par IBM. Rembo est un environnement de déploiement d'applications qui permet d'installer rapidemment et en même temps, n machines du même type. Il peut s’exécuter sur Windows, Linux ou encore FreeBSD et s’appuie sur un serveur DHCP. Les machines clientes doivent donc supporter PXE et auront dont exactement la même installation.\\
 
-L'installation s'appuie sur l'utilisation d'une platine virtuelle, sur laquelle on sélectionne les programmes à installer. La procédure est ensuite entièrement automatique, et personnalisable à l'infini. Une machine virtuelle est créée à chaque installation puis est effacée lorsque le processus est terminé.
+L'installation s'appuie sur l'utilisation d'une platine virtuelle, sur laquelle on sélectionne les programmes à installer. La procédure est ensuite entièrement automatique, et personnalisable à l'infini. Une machine virtuelle est créée à chaque installation puis est effacée lorsque le processus est terminé.\\
+..............................................
+
+\section{Clonezilla}
+Clonezilla est une logiciel libre créé par le laboratoire de recherche NCHC pouvant être utilisé sur plusieurs systèmes d'exploitations différents tel que Linux, Windows ou encore MAC OS X par exemple. Il permet de créer une image de sauvegarde d'un disque dur ou d'une ou plusieurs partitions, pour ensuite la restaurer ou la cloner sur une (unicast) ou plusieurs machines clientes (multicast).\\
+Il existe deux version de Clonezilla, "Clonezilla Live" et "Clonezilla Server" :\\
+\begin{itemize}
+  \item Clonezilla Live est utilisé par l'intermédiaire d'un Live CD, (ou clé usb également). Il permet à l'utilisateur d'effectuer directement depuis la machine une sauvegarde d'un disque ou d'une partition, une restauration d'une image depuis un disque, ou encore un clonage d'une image vers un autre disque. Cepedendant, ces actions ne peuvent s'effectuer que sur une seule machine à la fois puisque le Live CD est obligatoire.\\
+  \item Clonezilla Server (ou Clonezilla SE) est utilisé depuis un serveur et autorise plusieurs postes à se connecter simultanément par l'intermédiaire d'un réseau commun. Il n'y a donc pas besoin de Live CD ce qui permet d'effectuer des sauvegardes/restaurations/clonages sur plusieurs machines à la fois. Un server DRBL (Diskless Remote Boot in Linux) est utilisé ce qui permet aux stations esclaves concernées d'effectuer un démarrage PXE.
+\end{itemize}
+\begin{center}\includegraphics[scale=0.9]{./img/clonezilla.jpeg}\end{center}
+\vspace{1em}
+
+\chapter{Conclusion}
 
 \chapter{Sources}
 \begin{itemize}
   \item http://fai-project.org/\\\\
   \item https://docs.oracle.com/\\\\
   \item https://access.redhat.com/documentation/\\\\
+  \item httt://http://clonezilla.org/\\\\
 \end{itemize}
+
 
 \end{document}
