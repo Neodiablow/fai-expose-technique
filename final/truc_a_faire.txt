@@ -1,0 +1,5 @@
+différence alternatives avec FAI (temps d'installation des machines, ....)
+
+expliquer PXE
+
+rembo
